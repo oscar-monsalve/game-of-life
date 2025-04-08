@@ -18,7 +18,7 @@ def print_grid(grid: list[list[int]]) -> None:
 
 
 def count_live_neighbors(grid: list[list[int]], rows: int, cols: int) -> int:
-    neighbors = (
+    neighbors_coordinates = (
         (-1, 1),
         (0, 1),
         (1, 1),
@@ -29,5 +29,5 @@ def count_live_neighbors(grid: list[list[int]], rows: int, cols: int) -> int:
         (1, -1),
     )
 
-    for i, j in neighbors:
-        print(i, j)
+    for dx, dy in neighbors_coordinates:
+        live_cells = 0

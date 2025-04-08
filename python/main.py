@@ -1,7 +1,7 @@
 import game_of_life as gl
 
-ROWS = 10
-COLS = 10
+ROWS = 4
+COLS = 4
 
 
 def main() -> None:
