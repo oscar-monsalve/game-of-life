@@ -3,6 +3,7 @@ from random import randint
 
 def create_grid(rows: int, cols: int, randomize: bool) -> list[list[int]]:
     grid = []
+
     if randomize is False:
         for _ in range(rows):
             row = []
@@ -36,7 +37,7 @@ def print_grid(grid: list[list[int]]) -> None:
         print(VERTICAL, end="")
         for cell in row:
             symbol = LIVE_CELL if cell == 1 else DEAD_CELL
-            print(f" {symbol} ", end="")  # Adds padding around symbol
+            print(f" {symbol} ", end="")  # Padding around symbol
         print(VERTICAL)
 
     # Bottom border
@@ -65,11 +66,11 @@ def count_live_neighbors(grid: list[list[int]], row: int, col: int) -> int:
     return live_cells
 
 
-# Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-# Any live cell with two or three live neighbours lives on to the next generation.
-# Any live cell with more than three live neighbours dies, as if by overpopulation.
-# Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 def update_grid(grid: list[list[int]]) -> list[list[int]]:
+    # Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+    # Any live cell with two or three live neighbours lives on to the next generation.
+    # Any live cell with more than three live neighbours dies, as if by overpopulation.
+    # Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     new_grid = []
     for row, _ in enumerate(grid):
         new_row = []

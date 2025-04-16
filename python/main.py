@@ -1,21 +1,24 @@
+# -----Input description:------
+# ROWS, COLS  : Define the size of the grid rows x cols
+# GENERATIONS : Define for how many generations the simulation will run
+# RANDOMIZE   : Define whether to start with a random grid (True) or with a grid filled with zeros (False)
+# UPDATE_TIME : Define how fast the generations will pass (in seconds)
+# -----Input description:------
+
 # from os import system
 from time import sleep
 import game_of_life as gl
 
+# -----Inputs:------
 ROWS, COLS = (20, 20)
-GENERATIONS = 30
-RANDOMIZE = True
+GENERATIONS:   int = 100
+RANDOMIZE:    bool = True
+UPDATE_TIME: float = 0.1
+# -----Inputs:------
 
 
 def main() -> None:
     current_gen = gl.create_grid(ROWS, COLS, RANDOMIZE)
-    # current_gen = [
-    #     [0, 0, 0, 0, 0],
-    #     [0, 0, 0, 0, 0],
-    #     [0, 1, 1, 1, 0],
-    #     [0, 0, 0, 0, 0],
-    #     [0, 0, 0, 0, 0],
-    # ]
 
     gen_count = 0
     while gen_count <= GENERATIONS:
@@ -33,7 +36,7 @@ def main() -> None:
         current_gen = new_gen_grid
 
         gen_count += 1
-        sleep(0.5)
+        sleep(UPDATE_TIME)
 
 
 if __name__ == "__main__":
