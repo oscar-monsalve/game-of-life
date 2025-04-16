@@ -1,20 +1,46 @@
+from random import randint
 
-def create_grid(rows: int, cols: int) -> list[list[int]]:
+
+def create_grid(rows: int, cols: int, randomize: bool) -> list[list[int]]:
     grid = []
-    for _ in range(rows):
-        row = []
-        for _ in range(cols):
-            row.append(0)
-        grid.append(row)
-    return grid
+    if randomize is False:
+        for _ in range(rows):
+            row = []
+            for _ in range(cols):
+                row.append(0)
+            grid.append(row)
+        return grid
+    elif randomize is True:
+        for _ in range(rows):
+            row = []
+            for _ in range(cols):
+                row.append(randint(0, 1))
+            grid.append(row)
+        return grid
 
 
 def print_grid(grid: list[list[int]]) -> None:
+    LIVE_CELL = "■"
+    DEAD_CELL = " "
+    CELL_WIDTH = 3  # Each cell takes up 3 characters for alignment
+    HORIZONTAL = "⎯" * CELL_WIDTH
+    VERTICAL = "🭲"
+    CORNER = "+"
+
+    num_cols = len(grid[0])
+
+    # Top border
+    print(CORNER + (HORIZONTAL * num_cols) + CORNER)
+
     for row in grid:
-        line = ""
+        print(VERTICAL, end="")
         for cell in row:
-            line += str(cell) + " "
-        print(line.strip())
+            symbol = LIVE_CELL if cell == 1 else DEAD_CELL
+            print(f" {symbol} ", end="")  # Adds padding around symbol
+        print(VERTICAL)
+
+    # Bottom border
+    print(CORNER + (HORIZONTAL * num_cols) + CORNER)
 
 
 def count_live_neighbors(grid: list[list[int]], row: int, col: int) -> int:
@@ -61,3 +87,12 @@ def update_grid(grid: list[list[int]]) -> list[list[int]]:
                     new_row.append(1)
         new_grid.append(new_row)
     return new_grid
+
+
+def get_population(grid: list[list[int]]) -> int:
+    pop_count = 0
+    for row in grid:
+        for cell in row:
+            if cell == 1:
+                pop_count += 1
+    return pop_count
