@@ -10,14 +10,14 @@ def create_grid(rows: int, cols: int, randomize: bool) -> list[list[int]]:
             for _ in range(cols):
                 row.append(0)
             grid.append(row)
-        return grid
     elif randomize is True:
         for _ in range(rows):
             row = []
             for _ in range(cols):
                 row.append(randint(0, 1))
             grid.append(row)
-        return grid
+
+    return grid
 
 
 def print_grid(grid: list[list[int]]) -> None:
