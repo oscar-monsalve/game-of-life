@@ -1,23 +1,21 @@
 const std = @import("std");
 const game = @import("game_of_life.zig");
 
-const ROWS: u32 = 5;
-const COLS: u32 = 5;
+const ROWS: u32 = 2;
+const COLS: u32 = 2;
 const RANDOMIZE: bool = true;
 
 pub fn main() !void {
     const allocator = std.heap.page_allocator;
 
-    const grid = try game.create_grid(allocator, ROWS, COLS, RANDOMIZE);
-    defer allocator.free(grid);
+    const current_gen = try game.create_grid(allocator, ROWS, COLS, RANDOMIZE);
+    defer allocator.free(current_gen);
 
-    game.print_grid(grid, ROWS, COLS);
+    game.print_grid(current_gen, ROWS, COLS);
 
-    const row_cell = 1;
-    const col_cell = 1;
+    const next_gen = try game.update_grid(allocator, current_gen, ROWS, COLS);
+    defer allocator.free(next_gen);
 
-    const live_cells = game.count_live_neighbors(grid, ROWS, COLS, row_cell, col_cell);
-
-    std.debug.print("Live cells: {d}\n", .{live_cells});
+    game.print_grid(next_gen, ROWS, COLS);
 
 }

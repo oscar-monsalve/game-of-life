@@ -78,6 +78,7 @@ pub fn count_live_neighbors(grid: []u32, rows: u32, cols: u32, row_cell: u32, co
     };
 
     var live_cells: u32 = 0;
+
     for (neighbors_coordinates) |xy| {
         const dx = xy[0];
         const dy = xy[1];
@@ -85,10 +86,10 @@ pub fn count_live_neighbors(grid: []u32, rows: u32, cols: u32, row_cell: u32, co
         const row_neighbor: i32 = @as(i32, @intCast(row_cell)) + dx;
         const col_neighbor: i32 = @as(i32, @intCast(col_cell)) + dy;
 
-        const index_1d_grid = @as(u32, @intCast(row_neighbor)) * cols + @as(u32, @intCast(col_neighbor));
-
         if (row_neighbor < 0 or row_neighbor >= @as(i32, @intCast(rows))) continue;
         if (col_neighbor < 0 or col_neighbor >= @as(i32, @intCast(cols))) continue;
+
+        const index_1d_grid = @as(u32, @intCast(row_neighbor)) * cols + @as(u32, @intCast(col_neighbor));
         if (grid[index_1d_grid] == 1) {
             live_cells += 1;
         }
@@ -99,9 +100,27 @@ pub fn count_live_neighbors(grid: []u32, rows: u32, cols: u32, row_cell: u32, co
 }
 
 pub fn update_grid(allocator: std.mem.Allocator, grid: []u32, rows: u32, cols: u32) ![]u32 {
-    if (rows <= 0 or cols <= 0) {
-        return Errors.InvalidGridSize;
+    const new_grid = try allocator.alloc(u32, rows * cols);
+
+    for (0..rows) |row| {
+        for (0..cols) |col| {
+            const index_1d_grid = row * cols + col;
+            const cell = grid[index_1d_grid];
+            const live_neighbors = count_live_neighbors(grid, rows, cols, @as(u32, @intCast(row)), @as(u32, @intCast(col)));
+
+            // Game of life rules
+            if (cell == 0 and live_neighbors == 3) {
+                new_grid[index_1d_grid] = 1;
+            }
+            if (cell == 1 and (live_neighbors < 2 or live_neighbors > 3)) {
+                new_grid[index_1d_grid] = 0;
+            }
+            if (cell == 1 and (live_neighbors >= 2 and live_neighbors <= 3)) {
+                new_grid[index_1d_grid] = 1;
+            }
+        }
     }
 
-    const new_grid = try allocator.alloc(u32, rows * cols);
+    return new_grid;
 }
+
