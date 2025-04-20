@@ -106,7 +106,9 @@ pub fn update_grid(allocator: std.mem.Allocator, grid: []u32, rows: u32, cols: u
         for (0..cols) |col| {
             const index_1d_grid = row * cols + col;
             const cell = grid[index_1d_grid];
-            const live_neighbors = count_live_neighbors(grid, rows, cols, @as(u32, @intCast(row)), @as(u32, @intCast(col)));
+            const live_neighbors = count_live_neighbors(grid, rows, cols,
+                                                        @as(u32, @intCast(row)),
+                                                        @as(u32, @intCast(col)));
 
             // Game of life rules
             if (cell == 0 and live_neighbors == 3) {
