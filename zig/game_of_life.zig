@@ -70,13 +70,38 @@ pub fn print_grid(grid: []u32, rows: u32, cols: u32) void {
     std.debug.print("{s}\n", .{BOTTOM_RIGHT_CORNER});
 }
 
-pub fn count_live_neighbors(grid: []u32, rows: u32, cols: u32) void {
-    // const neighbors_coordinates = [8][2]i2{
-    //     .{-1, 1}, .{0, 1}, .{1 ,1},
-    //     .{-1, 0}, .{1, 0},
-    //     .{-1, -1}, .{0, -1}, .{1, -1},
-    // };
+pub fn count_live_neighbors(grid: []u32, rows: u32, cols: u32, row_cell: u32, col_cell: u32) u32 {
+    const neighbors_coordinates = [8][2]i2{
+        .{-1, 1}, .{0, 1}, .{1 ,1},
+        .{-1, 0}, .{1, 0},
+        .{-1, -1}, .{0, -1}, .{1, -1},
+    };
 
-    var live_cells = undefined;
+    var live_cells: u32 = 0;
+    for (neighbors_coordinates) |xy| {
+        const dx = xy[0];
+        const dy = xy[1];
 
+        const row_neighbor: i32 = @as(i32, @intCast(row_cell)) + dx;
+        const col_neighbor: i32 = @as(i32, @intCast(col_cell)) + dy;
+
+        const index_1d_grid = @as(u32, @intCast(row_neighbor)) * cols + @as(u32, @intCast(col_neighbor));
+
+        if (row_neighbor < 0 or row_neighbor >= @as(i32, @intCast(rows))) continue;
+        if (col_neighbor < 0 or col_neighbor >= @as(i32, @intCast(cols))) continue;
+        if (grid[index_1d_grid] == 1) {
+            live_cells += 1;
+        }
+
+    }
+
+    return live_cells;
+}
+
+pub fn update_grid(allocator: std.mem.Allocator, grid: []u32, rows: u32, cols: u32) ![]u32 {
+    if (rows <= 0 or cols <= 0) {
+        return Errors.InvalidGridSize;
+    }
+
+    const new_grid = try allocator.alloc(u32, rows * cols);
 }

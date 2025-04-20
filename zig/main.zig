@@ -13,6 +13,11 @@ pub fn main() !void {
 
     game.print_grid(grid, ROWS, COLS);
 
-    game.count_live_neighbors(grid);
+    const row_cell = 1;
+    const col_cell = 1;
+
+    const live_cells = game.count_live_neighbors(grid, ROWS, COLS, row_cell, col_cell);
+
+    std.debug.print("Live cells: {d}\n", .{live_cells});
 
 }
