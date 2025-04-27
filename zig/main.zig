@@ -12,7 +12,7 @@ const game = @import("game_of_life.zig");
 const ROWS: u32 = 30;
 const COLS: u32 = 30;
 const GENERATIONS: u32 = 100;
-const UPDATE_TIME: f32 = 0.1;
+const UPDATE_TIME: f32 = 0.3;
 const RANDOMIZE: bool = true;
 // -----Inputs:------
 

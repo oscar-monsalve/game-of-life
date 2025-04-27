@@ -1,5 +1,6 @@
 const std = @import("std");
 const testing = std.testing;
+const assert = std.debug.assert;
 
 const Errors = error{
     InvalidGridSize,
@@ -34,6 +35,12 @@ pub fn create_grid(allocator: std.mem.Allocator, rows: u32, cols: u32, randomize
     return grid;
 }
 
+pub fn assert_valid_grid(grid: []const u32) void {
+    for (grid) |cell| {
+        assert(cell == 0 or cell == 1);
+    }
+}
+
 pub fn print_grid(grid: []const u32, rows: u32, cols: u32) void {
     const LIVE_CELL = "■";
     const DEAD_CELL = " ";
@@ -44,6 +51,8 @@ pub fn print_grid(grid: []const u32, rows: u32, cols: u32) void {
     const UPPER_RIGHT_CORNER = "┓";
     const BOTTOM_LEFT_CORNER = "┗";
     const BOTTOM_RIGHT_CORNER = "┛";
+
+    assert_valid_grid(grid);
 
     // top border
     std.debug.print("{s}", .{UPPER_LEFT_CORNER});
@@ -97,10 +106,14 @@ pub fn count_live_neighbors(grid: []const u32, rows: u32, cols: u32, row_cell: u
 
     }
 
+    assert(live_cells <= 8);
+
     return live_cells;
 }
 
 pub fn update_grid(allocator: std.mem.Allocator, grid: []const u32, rows: u32, cols: u32) ![]u32 {
+    assert_valid_grid(grid);
+
     const new_grid = try allocator.alloc(u32, rows * cols);
 
     for (0..rows) |row| {
@@ -135,7 +148,8 @@ pub fn update_grid(allocator: std.mem.Allocator, grid: []const u32, rows: u32, c
 }
 
 pub fn get_population(grid: []const u32, rows: u32, cols: u32) u32 {
-    std.debug.assert(grid.len == rows * cols);
+    assert(grid.len == rows * cols);
+    assert_valid_grid(grid);
 
     var pop_count: u32 = 0;
 
@@ -152,7 +166,6 @@ pub fn get_population(grid: []const u32, rows: u32, cols: u32) u32 {
 
     return pop_count;
 }
-
 
 test "create_grid with randomizer" {
     const ROWS = 5;
