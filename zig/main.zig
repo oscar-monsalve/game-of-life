@@ -11,7 +11,7 @@ const game = @import("game_of_life.zig");
 // -----Inputs:------
 const ROWS: u32 = 30;
 const COLS: u32 = 30;
-const GENERATIONS: u32 = 100;
+const GENERATIONS: u32 = 1000;
 const UPDATE_TIME: f32 = 0.3;
 const RANDOMIZE: bool = true;
 // -----Inputs:------
@@ -28,7 +28,7 @@ pub fn main() !void {
 
     while (gen_count <= GENERATIONS) : (gen_count += 1) {
         std.debug.print("\x1B[2J\x1B[H", .{}); // Clear and reset cursor
-        // std.debug.print("\x1B[H", .{}); // Just reset cursor
+        // std.debug.print("\x0B[H", .{}); // Just reset cursor
         game.print_grid(current_gen, ROWS, COLS);
 
         const population = game.get_population(current_gen, ROWS, COLS);
