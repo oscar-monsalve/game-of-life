@@ -10,7 +10,7 @@ int main() {
     const int WINDOW_HEIGHT = 600;
 
     const int CELL_WIDTH = 10;
-    // const int COLS = WINDOW_WIDTH / CELL_WIDTH;
+    const int COLS = WINDOW_WIDTH / CELL_WIDTH;
     const int ROWS = WINDOW_HEIGHT / CELL_WIDTH;
 
     SDL_Window *window = SDL_CreateWindow(
@@ -30,7 +30,7 @@ int main() {
 
     // Draw grid and check for errors
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    if (draw_grid(renderer, ROWS, CELL_WIDTH, WINDOW_WIDTH) != 0) {
+    if (draw_grid(renderer, COLS, ROWS, CELL_WIDTH, WINDOW_WIDTH, WINDOW_HEIGHT) != 0) {
         SDL_Log("Error drawing grid: %s", SDL_GetError());
     }
 

@@ -5,10 +5,11 @@
 
 int draw_grid(
     SDL_Renderer *renderer,
-    // int COLS,
+    int cols,
     int rows,
     int cell_width,
-    int window_width
+    int window_width,
+    int window_height
 );
 
 #endif // HELPERS_H
